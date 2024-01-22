@@ -80,15 +80,39 @@ function revString(str, i = str.length -1) {
 /** gatherStrings: given an object, return an array of all of the string values. */
 
 function gatherStrings(obj) {
-  
+  let result = [];
 
+  for (let key in obj) {
+    if (typeof obj[key] === 'string') {
+      result.push(obj[key]);
+    } else if (typeof obj[key] === 'object') {
+      result = result.concat(gatherStrings(obj[key]));
+    }
+  }
+
+  return result;
 }
 
 /** binarySearch: given a sorted array of numbers, and a value,
  * return the index of that value (or -1 if val is not present). */
 
 function binarySearch(arr, val) {
+  let left = 0;
+  let right = arr.length - 1;
 
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+
+    if (arr[mid] === val) {
+      return mid; 
+    } else if (arr[mid] < val) {
+      left = mid + 1; 
+    } else {
+      right = mid - 1; 
+    }
+  }
+
+  return -1; 
 }
 
 module.exports = {
@@ -102,3 +126,6 @@ module.exports = {
   binarySearch,
   
 };
+
+
+toString()
